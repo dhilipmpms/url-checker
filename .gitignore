@@ -2,6 +2,5 @@ venv/
 __pycache__/
 *.pyc
 .env
-verify_fix.py
-repro_issue.py
+
 
