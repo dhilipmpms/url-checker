@@ -15,7 +15,22 @@
 
         {% if result %}
         <div class="result">
-            <h2>{{ result }}</h2>
+            <h2>Safety Report</h2>
+            <p><strong>Threat Level:</strong> <span class="{{ result.threat_level }}">{{ result.threat_level }}</span></p>
+            <p><strong>Score:</strong> {{ result.score }}</p>
+            <p><strong>World Class:</strong> {{ result.world_class }}</p>
+            <p><strong>Rank:</strong> {{ result.rank }}</p>
+            
+            {% if result.warnings %}
+            <h3>Warnings:</h3>
+            <ul>
+                {% for warning in result.warnings %}
+                <li>⚠️ {{ warning }}</li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <p>✅ No specific warnings found.</p>
+            {% endif %}
         </div>
         {% endif %}
     </div>
