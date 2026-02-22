@@ -1,38 +1,19 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <title>URL Safety Checker</title>
+    <title>Phishing URL Checker</title>
     <link rel="stylesheet" href="/static/style.css">
 </head>
+
 <body>
     <div class="container">
-        <h1>🔐 URL Safety Checker</h1>
-
+        <h1>🔍 URL Safety Checker</h1>
         <form method="POST">
             <input type="text" name="url" placeholder="Enter URL" required>
             <button type="submit">Check Safety</button>
         </form>
-
-        {% if result %}
-        <div class="result">
-            <h2>Safety Report</h2>
-            <p><strong>Threat Level:</strong> <span class="{{ result.threat_level }}">{{ result.threat_level }}</span></p>
-            <p><strong>Score:</strong> {{ result.score }}</p>
-            <p><strong>World Class:</strong> {{ result.world_class }}</p>
-            <p><strong>Rank:</strong> {{ result.rank }}</p>
-            
-            {% if result.warnings %}
-            <h3>Warnings:</h3>
-            <ul>
-                {% for warning in result.warnings %}
-                <li>⚠️ {{ warning }}</li>
-                {% endfor %}
-            </ul>
-            {% else %}
-            <p>✅ No specific warnings found.</p>
-            {% endif %}
-        </div>
-        {% endif %}
     </div>
 </body>
+
 </html>

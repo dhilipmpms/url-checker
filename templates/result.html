@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Result</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <style>
+        .container {
+            width: 700px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        th {
+            background: #334155;
+            padding: 10px;
+            text-align: left;
+        }
+
+        td {
+            padding: 8px 10px;
+            border-bottom: 1px solid #334155;
+        }
+
+        tr:hover td {
+            background: #1e3a5f;
+        }
+
+        .PASS {
+            color: #22c55e;
+            font-weight: bold;
+        }
+
+        .FAIL {
+            color: #ef4444;
+            font-weight: bold;
+        }
+
+        .WARNING {
+            color: #f59e0b;
+            font-weight: bold;
+        }
+
+        .redirect-box {
+            margin-top: 25px;
+            padding: 15px 20px;
+            border-radius: 8px;
+            background: #1e293b;
+            border: 1px solid #334155;
+            text-align: left;
+        }
+
+        .redirect-box h3 {
+            margin: 0 0 8px 0;
+        }
+
+        .redirect-box p {
+            margin: 4px 0;
+            font-size: 14px;
+            word-break: break-all;
+        }
+
+        .btn-go {
+            margin-top: 10px;
+            padding: 9px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 15px;
+            cursor: pointer;
+            margin-right: 8px;
+        }
+
+        .btn-go.safe {
+            background: #22c55e;
+            color: white;
+        }
+
+        .btn-go.safe:hover {
+            background: #16a34a;
+        }
+
+        .btn-go.caution {
+            background: #f59e0b;
+            color: white;
+        }
+
+        .btn-go.caution:hover {
+            background: #d97706;
+        }
+
+        .btn-go.danger {
+            background: #ef4444;
+            color: white;
+        }
+
+        .btn-go.danger:hover {
+            background: #dc2626;
+        }
+
+        .btn-back {
+            background: #334155;
+            color: white;
+        }
+
+        .btn-back:hover {
+            background: #475569;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>{{ result.emoji }} Risk Level: {{ result.level }}</h1>
+        <p><strong>World Level:</strong> {{ result.world_level }}</p>
+        <p><strong>URL:</strong> <span style="word-break:break-all;">{{ result.url }}</span></p>
+
+        <table>
+            <tr>
+                <th>Check</th>
+                <th>Status</th>
+                <th>Detected Value</th>
+                <th>Risk Added</th>
+            </tr>
+            {% for item in result.report %}
+            <tr>
+                <td>{{ item[0] }}</td>
+                <td class="{{ item[1] }}">{{ item[1] }}</td>
+                <td>{{ item[2] }}</td>
+                <td>{{ item[3] }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        {% if result.level == "HIGH" %}
+        <p style="color:#ef4444; margin-top:12px; font-weight:bold;">⚠ Unsafe URL detected</p>
+        {% endif %}
+
+        <!-- Redirect Box -->
+        <div class="redirect-box">
+            <h3>🔗 Proceed to URL</h3>
+            <p><strong>{{ result.url }}</strong></p>
+
+            {% if result.level == "HIGH" %}
+            <p style="color:#ef4444;">⚠ HIGH risk — proceed at your own risk.</p>
+            {% elif result.level == "MEDIUM" %}
+            <p style="color:#f59e0b;">⚠ MEDIUM risk — be cautious.</p>
+            {% else %}
+            <p style="color:#22c55e;">✅ This URL appears safe.</p>
+            {% endif %}
+
+            <a href="{{ result.url }}" target="_blank">
+                <button
+                    class="btn-go {% if result.level == 'HIGH' %}danger{% elif result.level == 'MEDIUM' %}caution{% else %}safe{% endif %}">
+                    {% if result.level == "HIGH" %}⚠ Visit Anyway{% else %}➡ Go to URL{% endif %}
+                </button>
+            </a>
+            <a href="/"><button class="btn-go btn-back">🔍 Check Another URL</button></a>
+        </div>
+    </div>
+</body>
+
+</html>
